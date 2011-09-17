@@ -1,14 +1,46 @@
-OS Packages
-===========
+Puppet + Thin + Nginx
+=====================
+
+Installation
+============
+
+Debian Packages
+---------------
 
     # aptitude install build-essential curl libssl-dev zlib1g-dev \
     libreadline5-dev libxml2-dev libyaml-dev automake
 
+Redhat Packages
+---------------
 
-Install Ruby 1.8.7
-==================
+    # yum install gcc gcc-c++ kernel-devel curl openssl-devel zlib-devel \
+    readline-devel libxml2-devel libyaml-devel automake
+
+
+Sources
+-------
+
+    # mkdir sources
+    # cd sources
+
+Get Ruby 1.8.7
 
     # curl -L -O ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.7-p352.tar.bz2
+
+Get Rubygems
+
+    # curl -L -O http://production.cf.rubygems.org/rubygems/rubygems-1.8.10.tgz
+
+Get PCRE and Nginx
+
+    # curl -L -O ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.13.tar.bz2
+    # curl -L -O http://nginx.org/download/nginx-1.0.6.tar.gz
+
+
+Ruby 1.8.7
+----------
+
+    # cd sources
     # tar -xjf ruby-1.8.7-p352.tar.bz2
     # cd ruby-1.8.7-p352
     # autoconf
@@ -18,28 +50,24 @@ Install Ruby 1.8.7
     # make install
     # /opt/ruby/bin/ruby --version
 
+Rubygems
+--------
 
-Install Rubygems
-================
-
-    # curl -L -O http://production.cf.rubygems.org/rubygems/rubygems-1.8.10.tgz
+    # cd sources
     # tar -xf rubygems-1.8.10.tgz
     # cd rubygems-1.8.10/
-    # ruby setup.rb
+    # /opt/ruby/bin/ruby setup.rb
 
+Gems: Facter, Puppet, and Thin
+------------------------------
 
-Installing Facter, Puppet, and Thin
-===================================
+    # /opt/ruby/bin/gem install facter puppet ronn thin
 
-    # gem install facter puppet ronn thin
+Nginx
+-----
 
-
-Installing Nginx
-================
-
-    # curl -L -O ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.13.tar.bz2
+    # cd sources
     # tar -xf pcre-8.13.tar.bz2 -C /tmp/
-    # curl -L -O http://nginx.org/download/nginx-1.0.6.tar.gz
     # tar -xf nginx-1.0.6.tar.gz
     # cd nginx-1.0.6
     # ./configure --prefix=/opt/nginx \
@@ -55,9 +83,8 @@ Installing Nginx
     # make
     # make install
 
-
 Test our installation
-=====================
+---------------------
 
     # export PATH="/opt/ruby/bin:/opt/nginx/sbin:$PATH"
     # facter --version
@@ -66,8 +93,11 @@ Test our installation
     # nginx -v
 
 
-Configure Puppet
-================
+Configuration
+=============
+
+Puppet
+------
 
     # puppet master --mkusers
     # killall puppet
@@ -77,9 +107,8 @@ Configure Puppet
     # puppet agent --test
     # killall puppet
 
-
-Configuring Thin
-================
+Thin
+----
 
     # mkdir /etc/thin
     # mkdir /var/run/puppet
@@ -89,9 +118,8 @@ Configuring Thin
     # cp /opt/ruby/lib/ruby/gems/1.8/gems/puppet-2.7.3/ext/rack/files/config.ru /etc/puppet/rack/
     # chown puppet:puppet -R /etc/puppet/
 
-
-Configure Nginx
-===============
+Nginx
+-----
 
     # vim /etc/nginx/puppet_proxy
     # vim /etc/nginx/puppet_master.conf
