@@ -8,20 +8,23 @@ Debian Packages
 ---------------
 
     # aptitude install build-essential curl libssl-dev zlib1g-dev \
-    libreadline5-dev libxml2-dev libyaml-dev automake
+    libreadline5-dev libxml2-dev libyaml-dev automake git
 
 Redhat Packages
 ---------------
 
-    # yum install gcc gcc-c++ kernel-devel curl openssl-devel zlib-devel \
-    readline-devel libxml2-devel libyaml-devel automake
+    rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm
+
+    # yum install gcc gcc-c++ kernel-devel make curl openssl-devel zlib-devel \
+    readline-devel libxml2-devel libyaml-devel automake git
 
 
 Sources
 -------
 
-    # mkdir sources
-    # cd sources
+    # mkdir /tmp/sources
+    # cd /tmp/sources
+    # git clone git://github.com/khightower/puppet-nginx-thin.git
 
 Get Ruby 1.8.7
 
@@ -40,7 +43,7 @@ Get PCRE and Nginx
 Ruby 1.8.7
 ----------
 
-    # cd sources
+    # cd /tmp/sources
     # tar -xjf ruby-1.8.7-p352.tar.bz2
     # cd ruby-1.8.7-p352
     # autoconf
@@ -53,7 +56,7 @@ Ruby 1.8.7
 Rubygems
 --------
 
-    # cd sources
+    # cd /tmp/sources
     # tar -xf rubygems-1.8.10.tgz
     # cd rubygems-1.8.10/
     # /opt/ruby/bin/ruby setup.rb
@@ -66,7 +69,7 @@ Gems: Facter, Puppet, and Thin
 Nginx
 -----
 
-    # cd sources
+    # cd /tmp/sources
     # tar -xf pcre-8.13.tar.bz2 -C /tmp/
     # tar -xf nginx-1.0.6.tar.gz
     # cd nginx-1.0.6
@@ -101,8 +104,9 @@ Puppet
 
     # puppet master --mkusers
     # killall puppet
-    # vim /etc/puppet/puppet.conf
+    # vi /etc/puppet/puppet.conf
     # cp /opt/ruby/lib/ruby/gems/1.8/gems/puppet-2.7.3/conf/auth.conf /etc/puppet/
+    # chown puppet:puppet -R /etc/puppet
     # puppet master
     # puppet agent --test
     # killall puppet
@@ -113,7 +117,7 @@ Thin
     # mkdir /etc/thin
     # mkdir /var/run/puppet
     # chown puppet /var/run/puppet
-    # vim /etc/thin/puppetmaster.yml
+    # vi /etc/thin/puppetmaster.yml
     # mkdir -p /etc/puppet/rack/{logs,tmp}
     # cp /opt/ruby/lib/ruby/gems/1.8/gems/puppet-2.7.3/ext/rack/files/config.ru /etc/puppet/rack/
     # chown puppet:puppet -R /etc/puppet/
@@ -121,9 +125,8 @@ Thin
 Nginx
 -----
 
-    # vim /etc/nginx/puppet_proxy
-    # vim /etc/nginx/puppet_master.conf
-    # vim /etc/nginx/nginx.conf
+    # vi /etc/nginx/puppetmaster.conf
+    # vi /etc/nginx/nginx.conf
 
       include puppetmaster.conf;
 
