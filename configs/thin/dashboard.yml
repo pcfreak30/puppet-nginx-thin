@@ -1,0 +1,15 @@
+# dashboard.yml
+adapter: rails
+chdir: /opt/puppet-dashboard-1.2.0
+environment: production
+group: dashboard
+log: /opt/puppet-dashboard-1.2.0/log/dashboard
+max_conns: 1024
+max_persistent_conns: 512
+pid: /opt/puppet-dashboard-1.2.0/tmp/pids/thin.pid
+servers: 3
+socket: /opt/puppet-dashboard-1.2.0/tmp/sockets/dashboard.sock
+tag: dashboard
+timeout: 600
+user: dashboard
+wait: 30

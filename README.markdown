@@ -137,3 +137,56 @@ Putting it all together
     # thin -C /etc/thin/puppetmaster.yml start
     # puppet master
     # puppet agent --test
+
+
+Adding Dashboard to the mix
+===========================
+
+Installation
+------------
+
+    # yum install mysql-server mysql mysql-devel
+    # gem install rake rdoc ri mysql
+    # cd /tmp/sources
+    # curl -L -O http://www.puppetlabs.com/downloads/dashboard/puppet-dashboard-1.2.0.tar.gz
+    # tar -xf puppet-dashboard-1.2.0.tar.gz -C /opt/
+    # cd /opt/puppet-dashboard-1.2.0/
+    # useradd dashboard
+
+Follow bootstrapping instructions here:
+
+http://docs.puppetlabs.com/dashboard/manual/1.2/bootstrapping.html
+
+    # cd /opt/puppet-dashboard-1.2.0/
+    # env RAILS_ENV=production ./script/delayed_job -p dashboard -n 1 -m start
+    # vi vendor/rails/actionpack/lib/action_controller.rb
+
+Comment out the rack dependency
+
+    # gem 'rack', '~> 1.1.0'
+
+Fix permissions
+
+    # chown dashboard:dashboard -R /opt/puppet-dashboard-1.2.0/
+
+
+Configuration
+--------------
+
+Thin
+----
+
+    # cp /tmp/sources/puppet-nginx-thin/configs/thin/dashboard.yml /etc/thin/
+
+
+Nginx
+-----
+
+    # cp /tmp/sources/puppet-nginx-thin/configs/nginx/dashboard.conf /etc/nginx/
+
+Include the dashboard configuration in `/etc/nginx/nginx.conf`
+
+    # vi /etc/nginx/nginx.conf
+    ...
+    include dashboard.conf;
+    ...
